@@ -1,0 +1,10 @@
+{
+  "name": "Qui fait quoi ? — Aurillac",
+  "short_name": "Qui fait quoi ?",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f4f6f8",
+  "theme_color": "#10263f",
+  "lang": "fr-FR",
+  "icons": []
+}
