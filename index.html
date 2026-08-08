@@ -21,10 +21,36 @@ select,input{width:100%;height:46px;border:1px solid #cbd2da;border-radius:10px;
 .code{font-size:28px;font-weight:850}.type{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.7px;margin-top:2px}
 .status-work{background:var(--green)}.status-fac{background:var(--fac)}.status-rp{background:var(--rp)}.status-rm{background:#ead8f8}
 .badge{display:inline-block;border-radius:8px;padding:5px 9px;font-weight:800}.work{background:var(--green)}.fac{background:var(--fac)}.rp{background:var(--rp)}.rm{background:#ead8f8}
-.tablewrap{overflow:auto;border:1px solid var(--line);border-radius:10px;margin-top:12px}table{width:100%;border-collapse:collapse;font-size:13px;min-width:500px}th{background:var(--navy);color:white;padding:9px 7px;text-align:left}td{padding:8px 7px;border-top:1px solid var(--line)}td.center{text-align:center}
+.tablewrap{overflow-x:hidden;overflow-y:visible;border:1px solid var(--line);border-radius:10px;margin-top:12px;width:100%;max-width:100%}
+table{width:100%;max-width:100%;table-layout:fixed;border-collapse:collapse;font-size:13px}
+th{background:var(--navy);color:white;padding:8px 4px;text-align:left;white-space:nowrap}
+td{padding:7px 4px;border-top:1px solid var(--line);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+td.center{text-align:center}
+#dateResults th:nth-child(1),#dateResults td:nth-child(1){width:45%}
+#dateResults th:nth-child(2),#dateResults td:nth-child(2){width:25%}
+#dateResults th:nth-child(3),#dateResults td:nth-child(3){width:30%}
+#kResults th:nth-child(1),#kResults td:nth-child(1){width:25%}
+#kResults th:nth-child(2),#kResults td:nth-child(2){width:24%}
+#kResults th:nth-child(3),#kResults td:nth-child(3){width:31%}
+#kResults th:nth-child(4),#kResults td:nth-child(4){width:20%}
+
 .kcell{font-weight:800}.empty{color:var(--muted);font-style:italic}
 .note{font-size:12px;color:var(--muted);margin-top:9px}.footer{text-align:center;color:var(--muted);font-size:11px;margin-top:18px}
 button{height:44px;border:0;border-radius:10px;background:var(--navy);color:white;font-weight:800;padding:0 15px}.hidden{display:none!important}
+
+
+@media(max-width:520px){
+  main{padding-left:8px;padding-right:8px}
+  .card{padding:12px;margin-bottom:10px}
+  table{font-size:12px}
+  th{font-size:11px;padding:7px 3px}
+  td{padding:6px 3px}
+  .badge{padding:4px 6px}
+  #kResults th:nth-child(1),#kResults td:nth-child(1){width:25%}
+  #kResults th:nth-child(2),#kResults td:nth-child(2){width:24%}
+  #kResults th:nth-child(3),#kResults td:nth-child(3){width:31%}
+  #kResults th:nth-child(4),#kResults td:nth-child(4){width:20%}
+}
 </style>
 </head>
 <body>
