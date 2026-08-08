@@ -1,0 +1,375 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#10263f">
+<link rel="manifest" href="manifest.webmanifest">
+<title>Qui fait quoi ? — Aurillac</title>
+<style>
+:root{--navy:#10263f;--gold:#d8a83e;--green:#42e33b;--pink:#ef6bb3;--blue:#39b9e8;--beige:#ddd8c5;--fac:#fff2a8;--rm:#b56de5;--rp:#dff5ff;--ink:#172333;--muted:#6b7280;--line:#d9dee5;--bg:#f4f6f8}
+*{box-sizing:border-box} body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",sans-serif;background:var(--bg);color:var(--ink)}
+header{background:linear-gradient(145deg,#0c2037,#183652);color:white;padding:calc(18px + env(safe-area-inset-top)) 18px 18px;border-bottom:4px solid var(--gold);position:sticky;top:0;z-index:10}
+.head{max-width:900px;margin:auto;display:flex;gap:13px;align-items:center}.train{font-size:32px}.title{font-size:24px;font-weight:800;letter-spacing:.2px}.period{font-size:13px;opacity:.86;margin-top:3px}
+main{max-width:900px;margin:auto;padding:14px 12px calc(30px + env(safe-area-inset-bottom))}
+.card{background:white;border:1px solid var(--line);border-radius:16px;padding:15px;margin-bottom:13px;box-shadow:0 3px 12px #10263f10}
+.card h2{font-size:16px;margin:0 0 13px;display:flex;align-items:center;gap:9px}.num{width:27px;height:27px;border-radius:50%;display:grid;place-items:center;background:var(--gold);color:white;font-weight:800}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}@media(max-width:520px){
+  main{width:100%;max-width:100%;padding-left:6px;padding-right:6px;overflow-x:hidden}
+  .card{width:100%;max-width:100%;padding:10px;margin-bottom:9px}
+  .tablewrap{width:100%;max-width:100%;overflow-x:hidden}
+  table{width:100% !important;min-width:0 !important;font-size:11px !important}
+  th{font-size:10px;padding:6px 2px}
+  td{font-size:11px;padding:6px 2px}
+  .badge{padding:3px 5px;font-size:11px}
+  #dateResults th:nth-child(1),#dateResults td:nth-child(1){width:55%}
+  #dateResults th:nth-child(2),#dateResults td:nth-child(2){width:45%;text-align:center}
+  #kResults th:nth-child(1),#kResults td:nth-child(1){width:24%}
+  #kResults th:nth-child(2),#kResults td:nth-child(2){width:22%}
+  #kResults th:nth-child(3),#kResults td:nth-child(3){width:34%}
+  #kResults th:nth-child(4),#kResults td:nth-child(4){width:20%}
+}
+label{font-size:12px;font-weight:700;color:#4b5563;display:block;margin-bottom:5px}
+select,input{width:100%;height:46px;border:1px solid #cbd2da;border-radius:10px;background:white;padding:0 12px;font-size:16px;color:var(--ink)}
+.result{margin-top:12px;background:#f8fafc;border:1px solid #dce3ea;border-radius:12px;padding:13px;text-align:center}
+.code{font-size:28px;font-weight:850}.type{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.7px;margin-top:2px}
+.status-work{background:var(--green)}.status-fac{background:var(--fac)}.status-rp{background:var(--rp)}.status-rm{background:#ead8f8}
+.badge{display:inline-block;border-radius:8px;padding:5px 9px;font-weight:800}.work{background:var(--green)}.fac{background:var(--fac)}.rp{background:var(--rp)}.rm{background:#ead8f8}
+.tablewrap{
+  width:100%;
+  max-width:100%;
+  overflow-x:hidden;
+  overflow-y:visible;
+  border:1px solid var(--line);
+  border-radius:10px;
+  margin-top:12px;
+}
+table{
+  width:100% !important;
+  max-width:100% !important;
+  min-width:0 !important;
+  table-layout:fixed !important;
+  border-collapse:collapse;
+  font-size:13px;
+}
+th{
+  background:var(--navy);
+  color:white;
+  padding:7px 3px;
+  text-align:left;
+  white-space:nowrap;
+  overflow:hidden;
+}
+td{
+  padding:6px 3px;
+  border-top:1px solid var(--line);
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+td.center{text-align:center}
+#dateResults th:nth-child(1),#dateResults td:nth-child(1){width:42%}
+#dateResults th:nth-child(2),#dateResults td:nth-child(2){width:28%}
+#dateResults th:nth-child(3),#dateResults td:nth-child(3){width:30%}
+#kResults th:nth-child(1),#kResults td:nth-child(1){width:24%}
+#kResults th:nth-child(2),#kResults td:nth-child(2){width:22%}
+#kResults th:nth-child(3),#kResults td:nth-child(3){width:34%}
+#kResults th:nth-child(4),#kResults td:nth-child(4){width:20%}
+
+.note{font-size:12px;color:var(--muted);margin-top:9px}.footer{text-align:center;color:var(--muted);font-size:11px;margin-top:18px}
+button{height:44px;border:0;border-radius:10px;background:var(--navy);color:white;font-weight:800;padding:0 15px}.hidden{display:none!important}
+
+
+@media(max-width:520px){
+  main{width:100%;max-width:100%;padding-left:6px;padding-right:6px;overflow-x:hidden}
+  .card{width:100%;max-width:100%;padding:10px;margin-bottom:9px}
+  .tablewrap{width:100%;max-width:100%;overflow-x:hidden}
+  table{width:100% !important;min-width:0 !important;font-size:11px !important}
+  th{font-size:10px;padding:6px 2px}
+  td{font-size:11px;padding:6px 2px}
+  .badge{padding:3px 5px;font-size:11px}
+  #dateResults th:nth-child(1),#dateResults td:nth-child(1){width:55%}
+  #dateResults th:nth-child(2),#dateResults td:nth-child(2){width:45%;text-align:center}
+  #kResults th:nth-child(1),#kResults td:nth-child(1){width:24%}
+  #kResults th:nth-child(2),#kResults td:nth-child(2){width:22%}
+  #kResults th:nth-child(3),#kResults td:nth-child(3){width:34%}
+  #kResults th:nth-child(4),#kResults td:nth-child(4){width:20%}
+}
+  .card{padding:12px;margin-bottom:10px}
+  table{font-size:12px}
+  th{font-size:11px;padding:7px 3px}
+  td{padding:6px 3px}
+  .badge{padding:4px 6px}
+  #kResults th:nth-child(1),#kResults td:nth-child(1){width:25%}
+  #kResults th:nth-child(2),#kResults td:nth-child(2){width:24%}
+  #kResults th:nth-child(3),#kResults td:nth-child(3){width:31%}
+  #kResults th:nth-child(4),#kResults td:nth-child(4){width:20%}
+}
+
+/* ===== Ajustements écran iPhone ===== */
+.search1-fields{
+  display:flex;
+  flex-direction:column;
+  gap:11px;
+  width:100%;
+}
+.search1-fields>div{width:100%;min-width:0}
+
+.card{overflow:hidden}
+input,select{width:100%;max-width:100%;min-width:0}
+
+#result1{
+  width:100%;
+  max-width:100%;
+  margin-top:12px;
+  min-height:122px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+}
+#result1 .code{font-size:38px;line-height:1.05}
+#result1 .type{font-size:18px;line-height:1.15;margin-top:7px}
+
+#dateResults,#kResults{
+  width:100% !important;
+  max-width:100% !important;
+  min-width:0 !important;
+  table-layout:fixed !important;
+}
+#dateResults th,#dateResults td,
+#kResults th,#kResults td{
+  text-align:left;
+  vertical-align:middle;
+}
+#dateResults th:nth-child(1),#dateResults td:nth-child(1){width:42%}
+#dateResults th:nth-child(2),#dateResults td:nth-child(2){width:28%;text-align:center}
+#dateResults th:nth-child(3),#dateResults td:nth-child(3){width:30%;text-align:center}
+
+#dateResults .badge,#kResults .badge{
+  font-size:16px;
+  line-height:1;
+  padding:6px 9px;
+}
+
+#kResults th:nth-child(1),#kResults td:nth-child(1){width:25%}
+#kResults th:nth-child(2),#kResults td:nth-child(2){width:22%}
+#kResults th:nth-child(3),#kResults td:nth-child(3){width:33%}
+#kResults th:nth-child(4),#kResults td:nth-child(4){width:20%;text-align:center}
+
+@media(max-width:520px){
+  .grid2{display:block}
+  .search1-fields{gap:10px}
+  .card{padding:12px}
+  .card h2{font-size:16px}
+  input,select{height:46px;font-size:16px}
+  #result1{min-height:118px}
+  #result1 .code{font-size:38px}
+  #result1 .type{font-size:18px}
+  #dateResults,#kResults{font-size:12px !important}
+  #dateResults th,#kResults th{font-size:11px;padding:7px 3px}
+  #dateResults td,#kResults td{padding:7px 3px}
+  #dateResults .badge,#kResults .badge{font-size:15px;padding:6px 8px}
+}
+
+/* ===== Correctif final iPhone : largeur des dates + alignement ===== */
+input[type="date"]{
+  display:block;
+  box-sizing:border-box !important;
+  width:100% !important;
+  max-width:100% !important;
+  min-width:0 !important;
+  margin:0;
+  padding:0 12px;
+  -webkit-appearance:none;
+  appearance:none;
+}
+.search1-fields,
+.search1-fields>div{
+  width:100% !important;
+  max-width:100% !important;
+  min-width:0 !important;
+  box-sizing:border-box;
+}
+.card{
+  box-sizing:border-box;
+  width:100%;
+  max-width:100%;
+}
+
+/* La cellule et son titre utilisent exactement le même alignement. */
+#dateResults th:nth-child(1),#dateResults td:nth-child(1){text-align:left}
+#dateResults th:nth-child(2),#dateResults td:nth-child(2){text-align:center}
+
+#kResults th:nth-child(1),#kResults td:nth-child(1){text-align:left}
+#kResults th:nth-child(2),#kResults td:nth-child(2){text-align:left}
+#kResults th:nth-child(3),#kResults td:nth-child(3){text-align:left}
+#kResults th:nth-child(4),#kResults td:nth-child(4){text-align:center}
+
+/* Recherche 1 : agrandissement réel du badge, pas seulement du conteneur. */
+#result1 .code{
+  font-size:1rem;
+  line-height:1;
+}
+#result1 .code .badge{
+  font-size:34px !important;
+  line-height:1;
+  padding:10px 16px !important;
+  border-radius:14px;
+}
+#result1 .type{
+  font-size:20px !important;
+  font-weight:850;
+  letter-spacing:1px;
+  margin-top:9px;
+}
+
+@media(max-width:520px){
+  input[type="date"]{
+    width:100% !important;
+    max-width:100% !important;
+    min-width:0 !important;
+    font-size:16px;
+    padding-left:12px;
+    padding-right:8px;
+  }
+  #result1 .code .badge{
+    font-size:34px !important;
+    padding:10px 16px !important;
+  }
+  #result1 .type{
+    font-size:20px !important;
+  }
+}
+
+/* ===== Alignement final des en-têtes et des données ===== */
+#dateResultsTable,
+#kResultsTable{
+  width:100% !important;
+  max-width:100% !important;
+  min-width:0 !important;
+  table-layout:fixed !important;
+  border-collapse:collapse;
+}
+
+#dateResultsTable th,
+#dateResultsTable td,
+#kResultsTable th,
+#kResultsTable td{
+  box-sizing:border-box;
+  vertical-align:middle;
+}
+
+/* Recherche 2 : Agent à gauche, Journée centrée exactement au-dessus des badges. */
+#dateResultsTable th:nth-child(1),
+#dateResultsTable td:nth-child(1){
+  width:55%;
+  text-align:left !important;
+}
+#dateResultsTable th:nth-child(2),
+#dateResultsTable td:nth-child(2){
+  width:45%;
+  text-align:center !important;
+}
+
+/* Recherche 3 : les intitulés suivent exactement l'alignement des valeurs. */
+#kResultsTable th:nth-child(1),
+#kResultsTable td:nth-child(1){
+  width:25%;
+  text-align:left !important;
+}
+#kResultsTable th:nth-child(2),
+#kResultsTable td:nth-child(2){
+  width:22%;
+  text-align:left !important;
+}
+#kResultsTable th:nth-child(3),
+#kResultsTable td:nth-child(3){
+  width:33%;
+  text-align:left !important;
+}
+#kResultsTable th:nth-child(4),
+#kResultsTable td:nth-child(4){
+  width:20%;
+  text-align:center !important;
+}
+
+@media(max-width:520px){
+  #dateResultsTable,
+  #kResultsTable{
+    width:100% !important;
+    min-width:0 !important;
+  }
+  #dateResultsTable th,
+  #kResultsTable th{
+    font-size:11px;
+  }
+  #dateResultsTable td,
+  #kResultsTable td{
+    font-size:12px;
+  }
+}
+</style>
+</head>
+<body>
+<header><div class="head"><div class="train">🚆</div><div><div class="title">QUI FAIT QUOI ?</div><div class="period" id="period"></div></div></div></header>
+<main>
+<section class="card">
+<h2><span class="num">1</span> Rechercher un agent à une date</h2>
+<div class="search1-fields">
+<div><label for="agent">Agent</label><select id="agent"></select></div>
+<div><label for="date1">Date</label><input id="date1" type="date"></div>
+</div>
+<div id="result1" class="result"></div>
+</section>
+
+<section class="card">
+<h2><span class="num">2</span> Rechercher une date</h2>
+<div><label for="date2">Date</label><input id="date2" type="date"></div>
+<div class="tablewrap"><table id="dateResultsTable"><thead><tr><th>Agent</th><th>Journée</th></tr></thead><tbody id="dateResults"></tbody></table></div>
+</section>
+
+<section class="card">
+<h2><span class="num">3</span> Rechercher une journée K</h2>
+<div><label for="kcode">Code journée K</label><select id="kcode"></select></div>
+<div class="tablewrap"><table id="kResultsTable"><thead><tr><th>Date</th><th>Jour</th><th>Agent</th><th>Journée</th></tr></thead><tbody id="kResults"></tbody></table></div>
+<div id="kCount" class="note"></div>
+</section>
+<div class="footer">Planning 2026 · Aurillac · Fonctionne directement dans Safari</div>
+</main>
+<script>
+let DATA=null;
+const $=id=>document.getElementById(id);
+const fmtDate=ds=>new Date(ds+"T12:00:00").toLocaleDateString("fr-FR",{day:"2-digit",month:"2-digit",year:"numeric"});
+const dayName=ds=>new Date(ds+"T12:00:00").toLocaleDateString("fr-FR",{weekday:"long"});
+function typeOf(code){if(!code)return ""; if(code.startsWith("K"))return "Travail"; if(code==="d")return "FAC"; if(code==="D")return "RM"; return "Repos"}
+function cls(code){let t=typeOf(code);return t==="Travail"?"work":t==="FAC"?"fac":t==="RM"?"rm":"rp"}
+function renderCode(code){if(!code)return '<span class="empty">Aucune donnée</span>';return `<span class="badge ${cls(code)}">${code==="d"?"FAC":code}</span>`}
+function init(){
+ $("period").textContent=`Du ${fmtDate(DATA.period.start)} au ${fmtDate(DATA.period.end)}`;
+ $("date1").min=DATA.period.start;$("date1").max=DATA.period.end;
+ $("date2").min=DATA.period.start;$("date2").max=DATA.period.end;
+ $("date1").value=DATA.period.start;$("date2").value=DATA.period.start;
+ DATA.agents.forEach(a=>$("agent").add(new Option(a,a)));
+ $("agent").value=DATA.agents.includes("BOYER")?"BOYER":DATA.agents[0];
+ const ks=[...new Set(DATA.agents.flatMap(a=>Object.values(DATA.schedule[a]).filter(x=>x&&x.startsWith("K"))))].sort();
+ ks.forEach(k=>$("kcode").add(new Option(k,k)));
+ update1();update2();update3();
+ $("agent").onchange=update1;$("date1").onchange=update1;$("date2").onchange=update2;$("kcode").onchange=update3;
+}
+function update1(){
+ const a=$("agent").value,d=$("date1").value,c=DATA.schedule[a]?.[d];
+ $("result1").innerHTML=`<div class="code">${c?renderCode(c):"—"}</div><div class="type">${c?typeOf(c):"Aucune donnée"}</div>`;
+}
+function update2(){
+ const d=$("date2").value,t=$("dateResults");t.innerHTML="";
+ DATA.agents.forEach(a=>{let c=DATA.schedule[a]?.[d];let tr=document.createElement("tr");tr.innerHTML=`<td>${a}</td><td class="center kcell">${renderCode(c)}</td>`;t.appendChild(tr)});
+}
+function update3(){
+ const k=$("kcode").value,t=$("kResults");t.innerHTML="";let n=0;
+ DATA.agents.forEach(a=>Object.entries(DATA.schedule[a]).forEach(([d,c])=>{if(c===k){n++;let tr=document.createElement("tr");tr.innerHTML=`<td>${fmtDate(d)}</td><td>${dayName(d)}</td><td>${a}</td><td class="center">${renderCode(c)}</td>`;t.appendChild(tr)}}));
+ $("kCount").textContent=`${n} occurrence${n>1?"s":""} trouvée${n>1?"s":""}`;
+}
+fetch("data.json").then(r=>r.json()).then(d=>{DATA=d;init()});
+</script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(()=>{})}</script></body></html>
